@@ -4,6 +4,7 @@
 .DS_Store
 enterprise-toolbox
 docker-se
+centos7/.*
 
 __pycache__/
 *.py[cod]
