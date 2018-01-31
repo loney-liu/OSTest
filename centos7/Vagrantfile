@@ -1,0 +1,17 @@
+
+Vagrant.configure("2") do |config|
+  # config.vm.box_check_update = false
+
+  config.vm.define :centos_empty do |centos_empty|
+    centos_empty.vm.provider "virtualbox" do |v|
+          v.customize ["modifyvm", :id, "--name", "centos_empty", "--memory", "2048"]
+    end
+    centos_empty.vm.box = "geerlingguy/centos7"
+    centos_empty.vm.hostname = "shotgun"
+    #centos_empty.vm.network "public_network", bridge: 'en0: Wi-Fi (AirPort)', ip: "192.168.0.10" 
+    centos_empty.vm.network "forwarded_port", guest: 80, host: 8888
+    centos_empty.vm.network "forwarded_port", guest: 8080, host: 9999
+    #centos_empty.vm.provision "file", source: "./script", destination: "$HOME/script"
+    #centos_empty.vm.provision "shell", path: "./script/setup_vagrant.sh", privileged: true
+  end
+end

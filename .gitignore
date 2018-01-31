@@ -1,4 +1,10 @@
 # Byte-compiled / optimized / DLL files
+#from other git project
+.gitignore
+.DS_Store
+enterprise-toolbox
+docker-se
+
 __pycache__/
 *.py[cod]
 *$py.class
