@@ -2,9 +2,11 @@
 #from other git project
 .gitignore
 .DS_Store
+*.sublime-*
 enterprise-toolbox
 docker-se
 centos7/.*
+centos6/.*
 
 __pycache__/
 *.py[cod]
