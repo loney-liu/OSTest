@@ -1,6 +1,12 @@
-$script = <<SCRIPT
+$script_delete = <<SCRIPT
 echo Deleting toolbox and sg folder ...
-rm -rf $HOME/sg $HOME/toolbox
+sudo rm -rf /home/vagrant/sg /home/vagrant/toolbox
+SCRIPT
+
+$script_chmod = <<SCRIPT
+echo Deleting toolbox and sg folder ...
+sudo chmod 777 -R /home/vagrant/sg
+sudo chmod 777 -R /home/vagrant/toolbox
 SCRIPT
 
 ENV["LC_ALL"] = "en_US.UTF-8"
@@ -18,8 +24,9 @@ Vagrant.configure("2") do |config|
     centos7_empty.vm.network "forwarded_port", guest: 80, host: 8877
     centos7_empty.vm.network "forwarded_port", guest: 8080, host: 9977
     #centos7_empty.vm.provision "shell", path: "./script/setup_vagrant.sh", privileged: true
-    centos7_empty.vm.provision "shell",inline: $script
+    centos7_empty.vm.provision "shell",inline: $script_delete
     centos7_empty.vm.provision "file", source: "~/ShotgunPKG", destination: "$HOME/sg"
     centos7_empty.vm.provision "file", source: "~/Git/enterprise-toolbox", destination: "$HOME/toolbox"
+    centos7_empty.vm.provision "shell",inline: $script_chmod
   end
 end
