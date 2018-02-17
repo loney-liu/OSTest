@@ -1,0 +1,21 @@
+ENV["LC_ALL"] = "en_US.UTF-8"
+
+Vagrant.configure("2") do |config|
+  # config.vm.box_check_update = false
+  config.vm.define :centos6_sec do |centos6_sec|
+    centos6_sec.vm.provider "virtualbox" do |v|
+          v.customize ["modifyvm", :id, "--name", "centos6_sec", "--memory", "2048"]
+    end
+    centos6_sec.vm.box = "geerlingguy/centos6"
+    centos6_sec.vm.hostname = "sec"
+    #centos6_sec.vm.network "public_network", bridge: 'en0: Wi-Fi (AirPort)', ip: "192.168.1.10" 
+    centos6_sec.vm.network "private_network", ip: "192.168.2.10" 
+    config.vm.network :forwarded_port, guest: 22, host: 2100, id: "ssh"
+    #centos6_sec.vm.network "forwarded_port", guest: 80, host: 8866
+    centos6_sec.vm.network "forwarded_port", guest: 8080, host: 9966
+    centos6_sec.vm.provision "shell", path: "~/ShotgunPKG/sh/del.sh", privileged: true
+    centos6_sec.vm.provision "file", source: "~/ShotgunPKG/sh/install_centos6.sh", destination: "$HOME/install_centos6.sh"
+    centos6_sec.vm.provision "shell", path: "~/ShotgunPKG/sh/add_user.sh", privileged: true
+    centos6_sec.vm.provision "file", source: "~/ShotgunPKG", destination: "$HOME/sg"
+  end
+end
